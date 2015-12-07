@@ -1,3 +1,5 @@
 /*
 !.gitignore
-!/src
+!src
+!pom.xml
+!readme.txt
