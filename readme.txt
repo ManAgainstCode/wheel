@@ -1,2 +1,1 @@
-hello
-github
+some study wheel
