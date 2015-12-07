@@ -9,9 +9,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.stereotype.Component;
 
-@Component
 public class IDFTable {
 	
 	private static final double LN2 = Math.log(2);  

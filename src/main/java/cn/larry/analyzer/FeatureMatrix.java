@@ -1,17 +1,15 @@
 package cn.larry.analyzer;
 
+import cn.larry.util.MD5Util;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-import org.springframework.stereotype.Component;
-
-import cn.larry.mapline.util.MD5Util;
 
 
-@Component
 public class FeatureMatrix {
 	
 	private Map<String,NewsFeature> wordsMatrix = new HashMap<String,NewsFeature>();
@@ -57,7 +55,6 @@ public class FeatureMatrix {
 			NewsFeature nf = wordsMatrix.get(str);
 			if(nf.cos(miliFeature) > theshold )
 				militaries.add(nf);
-			
 		}
 		return militaries;
 	}

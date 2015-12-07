@@ -15,7 +15,7 @@ public class MilitaryFeature {
 	
 	public static Map<String,Integer> getMilitaryFeature(){
 		try{
-			Document doc = Jsoup.parse(new File("C:\\Users\\Thinkpad\\Desktop\\测试简历\\腾讯军事_腾讯网.html"),"utf-8"); 
+			Document doc = Jsoup.parse(new File("C:/Users/Thinkpad/Desktop/测试简历/腾讯军事_腾讯网.html"),"utf-8");
 			Elements link = doc.select("a");
 			int num = 0;
 			Map<String,Integer> wordFreq = new HashMap<String,Integer>();
