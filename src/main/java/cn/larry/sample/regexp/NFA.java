@@ -1,4 +1,4 @@
-package cn.larry.sample;
+package cn.larry.sample.regexp;
 
 import cn.larry.graph.Digraph;
 import cn.larry.graph.DirectedDFS;
