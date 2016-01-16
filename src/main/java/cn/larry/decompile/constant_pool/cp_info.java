@@ -5,5 +5,5 @@ package cn.larry.decompile.constant_pool;
  *
  * @author larryfu
  */
-public class cp_info {
+public abstract class cp_info {
 }

@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class AnnotationDefault {
+public class AnnotationDefault extends attribute_info {
 }

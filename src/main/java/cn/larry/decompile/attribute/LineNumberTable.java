@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class LineNumberTable {
+public class LineNumberTable extends attribute_info {
 }

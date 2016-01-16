@@ -6,4 +6,6 @@ package cn.larry.decompile.constant_pool;
  * @author larryfu
  */
 public class CONSTANT_MethodType_info {
+    byte tag = 16;
+    short descriptor_index;
 }

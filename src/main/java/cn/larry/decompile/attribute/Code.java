@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class Code {
+public class Code  extends attribute_info {
 }

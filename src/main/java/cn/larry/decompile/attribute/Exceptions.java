@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class Exceptions {
+public class Exceptions extends attribute_info {
 }

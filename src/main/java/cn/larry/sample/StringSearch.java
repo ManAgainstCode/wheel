@@ -26,10 +26,9 @@ public class StringSearch {
             return -1;
         for(int i=0;i<txtLen-ptLen+1;i++){
             int j;
-            for( j=0;j<pattern.length();j++){
+            for( j=0;j<pattern.length();j++)
                 if( txt.charAt(i+j) != pattern.charAt(j))
                     break;
-            }
             if(j == pattern.length())
             	return i;
         }
@@ -44,10 +43,9 @@ public class StringSearch {
             return -1;
         for(int i=txtLen-ptLen+1;i>=0;i--){
             int j;
-            for( j=0;j<pattern.length();j++){
+            for( j=0;j<pattern.length();j++)
                 if( txt.charAt(i+j) != pattern.charAt(j))
                     break;
-            }
             if(j == pattern.length())
                 return i;
         }

@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class EnclosingMethod {
+public class EnclosingMethod extends attribute_info {
 }

@@ -6,7 +6,7 @@ package cn.larry.decompile.constant_pool;
  * @author larryfu
  */
 public class CONSTANT_Long_info {
-    byte tag;
+    byte tag = 5;
     int high_bytes;
     int low_bytes;
 }

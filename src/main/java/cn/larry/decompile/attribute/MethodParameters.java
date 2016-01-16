@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class MethodParameters {
+public class MethodParameters extends attribute_info {
 }

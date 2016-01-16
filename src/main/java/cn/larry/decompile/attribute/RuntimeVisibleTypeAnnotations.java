@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class RuntimeVisibleTypeAnnotations {
+public class RuntimeVisibleTypeAnnotations extends attribute_info {
 }

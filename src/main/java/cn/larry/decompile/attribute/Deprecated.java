@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class Deprecated {
+public class Deprecated extends attribute_info {
 }

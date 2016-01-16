@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class BootstrapMethods {
+public class BootstrapMethods extends attribute_info {
 }

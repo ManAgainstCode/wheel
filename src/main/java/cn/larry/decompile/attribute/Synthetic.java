@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class Synthetic {
+public class Synthetic extends attribute_info {
 }

@@ -6,4 +6,7 @@ package cn.larry.decompile.constant_pool;
  * @author larryfu
  */
 public class CONSTANT_NameAndType_info {
+    byte tag;
+    short name_index;
+    short descriptor_index;
 }

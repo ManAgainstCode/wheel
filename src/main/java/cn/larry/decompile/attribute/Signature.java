@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class Signature {
+public class Signature extends attribute_info {
 }

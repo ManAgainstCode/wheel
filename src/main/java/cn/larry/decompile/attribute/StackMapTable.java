@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class StackMapTable {
+public class StackMapTable extends attribute_info {
 }

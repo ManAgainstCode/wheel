@@ -6,4 +6,6 @@ package cn.larry.decompile.constant_pool;
  * @author larryfu
  */
 public class CONSTANT_String_info {
+    byte tag=11;
+    short String_index;
 }

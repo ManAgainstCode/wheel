@@ -6,4 +6,7 @@ package cn.larry.decompile.constant_pool;
  * @author larryfu
  */
 public class CONSTANT_Utf8_info {
+    byte tag = 1;
+    short length;
+    byte[] bytes;
 }

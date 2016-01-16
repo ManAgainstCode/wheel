@@ -5,5 +5,15 @@ package cn.larry.sort;
  *
  * @author larryfu
  */
-public interface MaxPq {
+public interface MaxPQ {
+
+    void insert(int i);
+
+    int max();
+
+    int delMax();
+
+    boolean isEmpty();
+
+    int size();
 }

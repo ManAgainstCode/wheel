@@ -6,4 +6,7 @@ package cn.larry.decompile.constant_pool;
  * @author larryfu
  */
 public class CONSTANT_InterfaceMethod_info {
+    byte tag = 11;
+    short class_index;
+    short name_and_type_index;
 }

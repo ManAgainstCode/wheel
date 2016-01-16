@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class InnerClass {
+public class InnerClass extends attribute_info {
 }

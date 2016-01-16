@@ -6,4 +6,6 @@ package cn.larry.decompile.constant_pool;
  * @author larryfu
  */
 public class CONSTANT_Float_info {
+    byte tag = 4;
+    int bytes;
 }

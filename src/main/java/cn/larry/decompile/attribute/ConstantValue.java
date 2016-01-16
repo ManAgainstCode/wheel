@@ -5,5 +5,6 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class ConstantValue {
+public class ConstantValue extends attribute_info {
+    short constantvalue_index;
 }

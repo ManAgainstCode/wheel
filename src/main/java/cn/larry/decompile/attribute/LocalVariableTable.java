@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class LocalVariableTable {
+public class LocalVariableTable extends attribute_info {
 }

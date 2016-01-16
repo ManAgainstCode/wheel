@@ -6,4 +6,6 @@ package cn.larry.demo;
  * @author larryfu
  */
 public class Person {
+    public static final String str = "abc";
+    public String name = "larry";
 }

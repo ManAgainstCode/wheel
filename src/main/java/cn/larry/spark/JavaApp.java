@@ -6,4 +6,7 @@ package cn.larry.spark;
  * @author larryfu
  */
 public class JavaApp {
+    public static void main(String[] args) {
+
+    }
 }

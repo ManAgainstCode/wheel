@@ -5,5 +5,7 @@ package cn.larry.decompile.constant_pool;
  *
  * @author larryfu
  */
-public class CONSTANT_Class_info {
+public class CONSTANT_Class_info extends cp_info {
+    byte tag = 7;
+    short name_index;
 }

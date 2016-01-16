@@ -5,5 +5,7 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class attribute_info {
+public abstract class attribute_info {
+    short attribute_name_index;
+    int attribute_length;
 }

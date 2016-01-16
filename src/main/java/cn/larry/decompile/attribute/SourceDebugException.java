@@ -5,5 +5,5 @@ package cn.larry.decompile.attribute;
  *
  * @author larryfu
  */
-public class SourceDebugException {
+public class SourceDebugException  extends attribute_info {
 }
