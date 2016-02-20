@@ -30,8 +30,4 @@ public class DirectedDFS {
     public boolean marked(int v){
         return marked[v];
     }
-
-    public static void main(String[] args) {
-
-    }
 }
