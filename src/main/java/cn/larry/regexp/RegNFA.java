@@ -6,9 +6,10 @@ import cn.larry.graph.DirectedDFS;
 import java.util.*;
 
 /**
+ * 执行识别的NFA，仅用于包内部
  * Created by larryfu on 16-1-31.
  */
-public class RegNFA {
+class RegNFA {
 
     private char[] re;   //匹配转换
     private Digraph G; //epsilon 转换
@@ -18,6 +19,12 @@ public class RegNFA {
     private Set<Integer> pc;
 
     private StringBuilder currentStr;
+
+    /**
+     * 根据给定regexp构造NFA
+     *
+     * @param regexp
+     */
 
     public RegNFA(String regexp) {
 
@@ -59,14 +66,22 @@ public class RegNFA {
     }
 
 
-    public boolean input(char c, String txt, int index) {
+    /**
+     * 输入一个字符
+     *
+     * @param c
+     * @param txt
+     * @param index
+     * @return nfa是否存活
+     */
+    boolean input(char c, String txt, int index) {
         List<Integer> match = new ArrayList<>();
         for (int v : pc)
             if (v < M && (NFAUtils.reconizeStartEnd(re[v], txt, index) || NFAUtils.equal(re[v], c)))
                 match.add(v + 1);
         DirectedDFS dfs = new DirectedDFS(G, match);
         pc = new HashSet<>();
-        for (int v = 0; v < M; v++)
+        for (int v = 0; v < G.V(); v++)
             if (dfs.marked(v))
                 pc.add(v);
         if (pc.size() > 0)
@@ -74,18 +89,35 @@ public class RegNFA {
         return pc.size() > 0;
     }
 
-    public String getCurrentMatch() {
+    /**
+     * 以接收的字符个数
+     *
+     * @return
+     */
+    int matchLen() {
+        return currentStr.length();
+    }
+
+    String getCurrentMatch() {
         return currentStr.toString();
     }
 
-    public boolean accept() {
+    /**
+     * 是否已接受
+     *
+     * @return
+     */
+    boolean accept() {
         for (Integer i : pc)
             if (i == M)
                 return true;
         return false;
     }
 
-    public void reset() {
+    /**
+     * 重置NFA的状态
+     */
+    void reset() {
         currentStr = new StringBuilder();
         pc = new HashSet<>();
         DirectedDFS dfs = new DirectedDFS(G, 0);
