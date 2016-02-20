@@ -8,6 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
 
 /**
  * Created by larryfu on 16-2-14.
@@ -18,15 +19,15 @@ public class NettyTimeClient {
         try {
             Bootstrap b = new Bootstrap();
             b.group(group)
-                    .channel(NioServerSocketChannel.class)
+                    .channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY, true)
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
-                            socketChannel.pipeline().addLast(new NettyTimeCliendHandler());
+                            socketChannel.pipeline().addLast(new NettyTimeClientHandler());
                         }
                     });
-            ChannelFuture f = b.bind(port).sync();
+            ChannelFuture f = b.connect(host, port).sync();
             f.channel().closeFuture().sync();
         } finally {
             group.shutdownGracefully();

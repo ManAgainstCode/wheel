@@ -1,6 +1,7 @@
 package cn.larry.nio;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -20,7 +21,8 @@ public class NettyTimeServerHandler extends ChannelHandlerAdapter {
         System.out.println("Time server receive order:" + body);
         String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ?
                 new Date(System.currentTimeMillis()).toString() : "BAD ORDER";
-        context.write(currentTime);
+        ByteBuf byteBuf = Unpooled.copiedBuffer(currentTime.getBytes());
+        context.write(byteBuf);
     }
 
     @Override

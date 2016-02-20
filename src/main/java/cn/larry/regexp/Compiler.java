@@ -15,6 +15,7 @@ public class Compiler {
     private int M;    //状态数量
 
     public Compiler(String regexp) {
+        regexp = processEscape(regexp);
         Stack<Integer> ops = new Stack<>();
         re = processPlus(regexp.toCharArray());
         re = processTimes(re);
@@ -48,6 +49,12 @@ public class Compiler {
             if (re[i] == '(' || re[i] == '*' || re[i] == ')' || re[i] == '?')
                 G.addEdge(i, i + 1);
         }
+    }
+
+    private String processEscape(String regexp) {
+        for (EscapeCharacter ec : EscapeCharacter.values())
+            regexp = replaceAll(regexp, ec.getExpression(), String.valueOf(ec.getCode()));
+        return regexp;
     }
 
     /**
@@ -93,7 +100,7 @@ public class Compiler {
         clist.add(chars);
         StringBuilder sb = new StringBuilder();
         clist.forEach(sb::append);
-        System.out.println(sb.toString());
+        // System.out.println(sb.toString());
         return processPlus(sb.toString().toCharArray());
     }
 
@@ -154,7 +161,7 @@ public class Compiler {
         if (fact == pattern || pattern == '.')
             return true;
         //if()
-        return  false;
+        return false;
     }
 
     public boolean recognizes(String txt) {
@@ -165,7 +172,9 @@ public class Compiler {
         for (int i = 0; i < txt.length(); i++) {
             List<Integer> match = new ArrayList<>();
             for (int v : pc)
-                if (v < M && (re[v] == txt.charAt(i) || re[v] == '.'))
+                if (v < M &&
+                        //(re[v] == txt.charAt(i) || re[v] == '.'))
+                        (reconizeStartEnd(re[v], txt, i) || match(re[v], txt.charAt(i))))
                     match.add(v + 1);
             pc = new ArrayList<>();
             dfs = new DirectedDFS(G, match);
@@ -176,16 +185,62 @@ public class Compiler {
         return false;
     }
 
+    private boolean reconizeStartEnd(char c, String text, int index) {
+        return c == '^' && index == 0 || c == '$' && index == text.length() - 1;
+    }
+
+    private boolean match(char expChar, char realChar) {
+        if (expChar == realChar)
+            return true;
+        for (EscapeCharacter ec : EscapeCharacter.values())
+            if (expChar == ec.getCode())
+                return ec.match(realChar);
+        return false;
+    }
+
     public static void mains(String[] args) {
         String regexp = "(ba*){2,3}dd{2,4}";
         System.out.println(processTimes(regexp.toCharArray()));
     }
 
     public static void main(String[] args) {
-        String regexp = "bad?((a|b|c)+c)+ab";
-        String reg = "(a|b){2,4}";
+//        String regexp = "\\(bad?((a|b|c)+c)+ab";
+        //String reg = "\\((a|b){2,4}";
+        String reg = "\\(ab(a|b)";
         Compiler nfa = new Compiler(reg);
-        System.out.println(nfa.recognizes("aabbb"));
+        System.out.println(nfa.recognizes("(abb"));
+        //    System.out.println(replaceAll("that at t", "at", "isa"));
+    }
+
+    /**
+     * 将str中的所有origin子串替换为target
+     *
+     * @param str
+     * @param origin
+     * @param target
+     * @return
+     */
+
+    public static String replaceAll(String str, String origin, String target) {
+        if (str == null || origin == null || target == null)
+            throw new IllegalArgumentException("parameter can not be null");
+        if (origin.length() > str.length() || origin.length() == 0)
+            return str;
+        StringBuilder sb = new StringBuilder();
+        int strLen = str.length(), originLen = origin.length();
+        for (int i = 0; i < strLen; i++) {
+            int j = 0;
+            for (; j < originLen && i + j < strLen; j++)
+                if (str.charAt(i + j) != origin.charAt(j))
+                    break;
+            if (j < originLen)
+                sb.append(str.charAt(i));
+            else {
+                sb.append(target);
+                i += originLen - 1;
+            }
+        }
+        return sb.toString();
     }
 }
 

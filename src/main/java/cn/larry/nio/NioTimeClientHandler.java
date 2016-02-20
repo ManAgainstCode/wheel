@@ -1,58 +1,67 @@
 package cn.larry.nio;
 
-import cn.larry.sort.SelectSort;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 
 /**
  * Created by larryfu on 16-2-14.
  */
-public class MultiplexerTimeServer implements Runnable {
+public class NioTimeClientHandler implements Runnable {
 
+    private String host;
+    private int port;
     private Selector selector;
-    private ServerSocketChannel serverChannel;
-
+    private SocketChannel socketChannel;
     private volatile boolean stop;
 
-
-    public MultiplexerTimeServer(int port) {
+    public NioTimeClientHandler(String host, int port) {
+        this.host = host == null ? "127.0.0.1" : host;
+        this.port = port;
         try {
             selector = Selector.open();
-            serverChannel = ServerSocketChannel.open();
-            serverChannel.configureBlocking(false);
-            serverChannel.socket().bind(new InetSocketAddress(port), 1024);
-            serverChannel.register(selector, SelectionKey.OP_ACCEPT);
-            System.out.println("time server is start in " + port);
+            socketChannel = SocketChannel.open();
+            socketChannel.configureBlocking(false);
         } catch (IOException e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
 
-    public void stop() {
-        this.stop = true;
+    private void doConnect() throws IOException {
+        if (socketChannel.connect(new InetSocketAddress(host, port))) {
+            socketChannel.register(selector, SelectionKey.OP_READ);
+            doWrite(socketChannel);
+        } else
+            socketChannel.register(selector, SelectionKey.OP_CONNECT);
+    }
+
+    private void doWrite(SocketChannel sc) throws IOException {
+        byte[] req = "QUERY TIME ORDER".getBytes();
+        ByteBuffer writeBuffer = ByteBuffer.allocate(req.length);
+        writeBuffer.put(req);
+        writeBuffer.flip();
+        sc.write(writeBuffer);
+        if (writeBuffer.hasRemaining())
+            System.out.println("send order 2 server failed");
     }
 
     private void handleInput(SelectionKey key) throws IOException {
         if (key.isValid()) {
-
-            if (key.isAcceptable()) {
-                ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
-                SocketChannel sc = ssc.accept();
-                sc.configureBlocking(false);
-                sc.register(selector, SelectionKey.OP_READ);
-
+            SocketChannel sc = (SocketChannel) key.channel();
+            if (key.isConnectable()) {
+                if (sc.finishConnect()) {
+                    sc.register(selector, SelectionKey.OP_READ);
+                    doWrite(sc);
+                } else
+                    System.exit(1);
             }
             if (key.isReadable()) {
-                SocketChannel sc = (SocketChannel) key.channel();
                 ByteBuffer readBuffer = ByteBuffer.allocate(1024);
                 int readBytes = sc.read(readBuffer);
                 if (readBytes > 0) {
@@ -60,10 +69,8 @@ public class MultiplexerTimeServer implements Runnable {
                     byte[] bytes = new byte[readBuffer.remaining()];
                     readBuffer.get(bytes);
                     String body = new String(bytes, "UTF-8");
-                    System.out.println("the Time server receiver order  :" + body);
-                    String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ?
-                            new Date(System.currentTimeMillis()).toString() : "BAD ORDER";
-                    doWrite(sc, currentTime);
+                    System.out.println("now is :" + body);
+                    this.stop = true;
                 } else if (readBytes < 0) {
                     key.cancel();
                     sc.close();
@@ -72,18 +79,14 @@ public class MultiplexerTimeServer implements Runnable {
         }
     }
 
-    private void doWrite(SocketChannel sc, String response) throws IOException {
-        if (response != null && response.trim().length() > 0) {
-            byte[] bytes = response.getBytes();
-            ByteBuffer buffer = ByteBuffer.allocate(bytes.length);
-            buffer.put(bytes);
-            buffer.flip();
-            sc.write(buffer);
-        }
-    }
-
     @Override
     public void run() {
+        try {
+            doConnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
         while (!stop) {
             try {
                 selector.select(1000);
@@ -103,7 +106,7 @@ public class MultiplexerTimeServer implements Runnable {
                         }
                     }
                 }
-            } catch (Throwable e) {
+            } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(1);
             }
